@@ -1,8 +1,10 @@
 import { createReducer } from "redux-act";
 import * as act from "../actions";
 import { combineReducers } from "redux";
-combineReducers
 
+const filterPhoto = (state, payload,pag) =>(
+      photos = page === 1 ? payload.data.photos : [...state.photos, ...payload.data.photos]
+)
 
 const page = createReducer({
   [act.incrementPages]: (state) => state + 1,
@@ -10,10 +12,7 @@ const page = createReducer({
 }, 1);
 
 const photos = createReducer({
-  [act.recievePhotos]: (state, payload,page) => {
-  	photos = page === 1 ? res.data.photos : [...this.state.photos, ...res.data.photos]
-  	payload}
-
+  [act.recievePhotos]: (state, payload,page) => filterPhoto(state, payload,page)    
 }, []);
 
 const loading = createReducer({
@@ -31,7 +30,7 @@ const rootReducer = combineReducers({
   page,
   photos,
   loading,
-  refreshings
+  refreshing
 });
 
 export default rootReducer;

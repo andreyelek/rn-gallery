@@ -1,17 +1,17 @@
 import React from "react";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
-import thunkMiddleware from "redux-thunk";
-import { createLogger } from "redux-logger";
+import thunk from "redux-thunk";
+import logger from "redux-logger";
 import { assignAll } from "redux-act";
 import reducer from "./reducers";
 import {incrementPages, resetPages, requestPhotos, recievePhotos}  from "./actions";
 import Main from "./components/main";
 
 const actions = {incrementPages, resetPages, requestPhotos, recievePhotos}
-const middleware = [thunkMiddleware,createLogger];
+let middleware = [thunk];
 /*if (process.env.NODE_ENV !== "production") {
-  middleware.push(createLogger());
+  middleware.push(logger());
 }*/
 const store = createStore(
   reducer,
@@ -20,11 +20,10 @@ const store = createStore(
 
 assignAll(actions, store);
 
-const Main = () => (
+const Home = () => (
   <Provider store={store}>
     <Main/>
   </Provider>
 )
 
-
-export default Main;
+export default Home;

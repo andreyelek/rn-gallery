@@ -58,10 +58,10 @@ class Main extends React.Component {
   };
 
   componentDidMount() {
-    this.props.actions.makeRemoteRequest()
+    makeRemoteRequest()
   }
   
- nderFooter () {
+ /*renderFooter () {
     if (!this.props.loading) return null;
 
     return (
@@ -75,7 +75,7 @@ class Main extends React.Component {
         <ActivityIndicator animating size="large" />
       </View>
     );
-  };
+  };*/
 
   renderFlatListItem(item) {
     const { navigate } = this.props.navigation;
@@ -94,12 +94,11 @@ class Main extends React.Component {
   }
 
   render() {
-     let {
+    const {
         photos,
         refreshing
     } = this.props;
-  refreshing = false;
-  console.log(this.props)
+    console.log(this.props)
     return (
       <View>
         <FlatList style = {{backgroundColor: '#fff'}}
@@ -107,7 +106,7 @@ class Main extends React.Component {
           keyExtractor={(item) => item.id}
           renderItem={({item}) => this.renderFlatListItem(item)}
           ItemSeparatorComponent={this.renderSeparator}
-          ListFooterComponent={this.renderFooter}
+          //ListFooterComponent={this.renderFooter}
           onRefresh={handleRefresh}
           refreshing={refreshing}
           onEndReached={handleLoadMore}
@@ -124,7 +123,5 @@ const mapStateToProps = state => {
     ...state
   };
 };
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(makeRemoteRequest, dispatch)
-});
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+
+export default connect(mapStateToProps)(Main);
