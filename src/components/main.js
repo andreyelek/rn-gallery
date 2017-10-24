@@ -12,6 +12,7 @@ import {
 import {makeRemoteRequest, handleRefresh, handleLoadMore} from "../actions"
 import {connect} from "react-redux"
 import { bindActionCreators } from 'redux'
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -40,6 +41,11 @@ const styles = StyleSheet.create({
 
 class Main extends React.Component {
 
+constructor(props) {
+  super(props);
+  this.renderFooter = this.renderFooter.bind(this)
+}
+  
   static navigationOptions = {
     title: 'Photo List',
   };
@@ -57,11 +63,11 @@ class Main extends React.Component {
     );
   };
 
-  componentDidMount() {
-    makeRemoteRequest()
+  componentWillMount() {
+    this.props.makeRemoteRequest()
   }
   
- /*renderFooter () {
+ renderFooter() {
     if (!this.props.loading) return null;
 
     return (
@@ -75,7 +81,7 @@ class Main extends React.Component {
         <ActivityIndicator animating size="large" />
       </View>
     );
-  };*/
+  };
 
   renderFlatListItem(item) {
     const { navigate } = this.props.navigation;
@@ -96,9 +102,9 @@ class Main extends React.Component {
   render() {
     const {
         photos,
-        refreshing
+        refreshing,
+
     } = this.props;
-    console.log(this.props)
     return (
       <View>
         <FlatList style = {{backgroundColor: '#fff'}}
@@ -106,7 +112,7 @@ class Main extends React.Component {
           keyExtractor={(item) => item.id}
           renderItem={({item}) => this.renderFlatListItem(item)}
           ItemSeparatorComponent={this.renderSeparator}
-          //ListFooterComponent={this.renderFooter}
+          ListFooterComponent={this.renderFooter}
           onRefresh={handleRefresh}
           refreshing={refreshing}
           onEndReached={handleLoadMore}
@@ -123,5 +129,8 @@ const mapStateToProps = state => {
     ...state
   };
 };
+/*const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({makeRemoteRequest}, dispatch)
+});*/
 
-export default connect(mapStateToProps)(Main);
+export default connect(mapStateToProps, {makeRemoteRequest})(Main);

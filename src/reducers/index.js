@@ -2,8 +2,8 @@ import { createReducer } from "redux-act";
 import * as act from "../actions";
 import { combineReducers } from "redux";
 
-const filterPhoto = (state, payload,pag) =>(
-      photos = page === 1 ? payload.data.photos : [...state.photos, ...payload.data.photos]
+const filterPhoto = (state, payload, page) =>(
+      state = page === 1 ? payload : [...state, ...payload]
 )
 
 const page = createReducer({
@@ -12,7 +12,7 @@ const page = createReducer({
 }, 1);
 
 const photos = createReducer({
-  [act.recievePhotos]: (state, payload,page) => filterPhoto(state, payload,page)    
+  [act.recievePhotos]: (state, [payload, page]) => filterPhoto(state, payload, page)    
 }, []);
 
 const loading = createReducer({
