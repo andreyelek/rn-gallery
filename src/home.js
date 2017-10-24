@@ -1,28 +1,14 @@
-import React from "react";
-import { createStore, applyMiddleware,compose } from "redux";
-import { Provider } from "react-redux";
-import thunk from "redux-thunk";
-import { assignAll } from "redux-act";
-import reducer from "./reducers";
-import {incrementPages, resetPages, requestPhotos, recievePhotos}  from "./actions";
-import Main from "./components/main";
-import { composeWithDevTools } from 'remote-redux-devtools';
+import React, {Component} from 'react';
+import { AppRegistry } from 'react-native';
+import { StackNavigator } from 'react-navigation';
+
+import Home from './components/main';
+import Photo from './components/photo';
 
 
-const actions = {incrementPages, resetPages, requestPhotos, recievePhotos}
-let middleware = [thunk];
+const Gallery = StackNavigator({
+  Home: { screen: Home },
+  Photo: { screen: Photo },
+});
 
-const store = createStore(
-  reducer,
-  composeWithDevTools(applyMiddleware(...middleware)) 
-);
-
-assignAll(actions, store);
-
-const Home = () => (
-  <Provider store={store}>
-    <Main/>
-  </Provider>
-)
-
-export default Home;
+export default Gallery;

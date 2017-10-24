@@ -9,10 +9,12 @@ import {
   Image, 
   ActivityIndicator
 } from "react-native";
-import {makeRemoteRequest, handleRefresh, handleLoadMore} from "../actions"
+import {makeRemoteRequest, resetPages, incrementPages} from "../actions"
 import {connect} from "react-redux"
 import { bindActionCreators } from 'redux'
-
+function getRandom() {
+  return Math.random() * (1e20 - -1e20) + -1e20;
+}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -44,6 +46,8 @@ class Main extends React.Component {
 constructor(props) {
   super(props);
   this.renderFooter = this.renderFooter.bind(this)
+  this.handleRefresh = this.handleRefresh.bind(this)
+  this.handleLoadMore = this.handleLoadMore.bind(this)
 }
   
   static navigationOptions = {
@@ -62,13 +66,27 @@ constructor(props) {
       />
     );
   };
-
+  checkLoading(){
+    return this.props.loading
+  }
   componentWillMount() {
+    if(this.checkLoading()) return;
     this.props.makeRemoteRequest()
   }
-  
- renderFooter() {
-    if (!this.props.loading) return null;
+
+  handleRefresh(){
+    if(this.checkLoading()) return;
+    resetPages()
+    this.props.makeRemoteRequest()
+  }
+
+  handleLoadMore(){
+    if(this.checkLoading()) return;
+    incrementPages()
+    this.props.makeRemoteRequest()
+  }
+  renderFooter() {
+    if(!this.checkLoading()) return null;
 
     return (
       <View
@@ -109,13 +127,13 @@ constructor(props) {
       <View>
         <FlatList style = {{backgroundColor: '#fff'}}
           data={photos}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => getRandom()}
           renderItem={({item}) => this.renderFlatListItem(item)}
           ItemSeparatorComponent={this.renderSeparator}
           ListFooterComponent={this.renderFooter}
-          onRefresh={handleRefresh}
+          onRefresh={this.handleRefresh}
           refreshing={refreshing}
-          onEndReached={handleLoadMore}
+          onEndReached={this.handleLoadMore}
           onEndReachedThreshold={50}
         />
       </View>
