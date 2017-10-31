@@ -1,5 +1,5 @@
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
-
+[APK file](https://exp-shell-app-assets.s3-us-west-1.amazonaws.com/android%2F%40andreyelek%2Freact-native-gallery-2e7832e3-b8ee-11e7-a622-0a580a781a16-signed.apk)
 Below you'll find information about performing common tasks. The most recent version of this guide is available [here](https://github.com/react-community/create-react-native-app/blob/master/react-native-scripts/template/README.md).
 
 ## Table of Contents
